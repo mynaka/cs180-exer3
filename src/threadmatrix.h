@@ -58,3 +58,17 @@ void *fillSubmatrices(void* args);
 *result: returns a 'size' by 'size' zero matrix(implemented through parallelism)
 */
 MATRIX **array_init_zero_parallel(int size);
+
+/*
+*GET ROWS
+*requirements: Arguments containing matrices, cpu identifier, size of matrix, starting row, and number fo rows to compute
+*result: compute for values in rows of the resulting matrix specified by arguments
+*/
+void* getRow(void* args);
+
+/*
+*CACHED PARALLEL ROWS MULTIPLICATION
+*requirements: three 2d MATRIX arrays; two operands mat A and matB and one resultant matC, integer containing matrix size
+*result: multiply matrix A and B(after transposition) and return resulting matrix C
+*/
+MATRIX** parallel_rows_cached(MATRIX** matA, MATRIX** matB, MATRIX** matC, int size);
