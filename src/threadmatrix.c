@@ -22,10 +22,25 @@ MATRIX **array_init_zero(int size){
     return arr;
 }
 
+MATRIX **array_init_random(int size){
+    MATRIX **arr = (MATRIX**)malloc(size * sizeof(MATRIX*));
+    for(int row = 0; row < size; row++){
+        arr[row] = (MATRIX*)malloc(size * sizeof(MATRIX));
+        for(int col = 0; col < size; col++){                    //initialize initial array fields
+            arr[row][col].row = row;
+            arr[row][col].column = col;
+            arr[row][col].element = (rand()%10)-5;
+        }
+    }
+    return arr;
+}
+
 void *fillSubmatrices(void* args){
     INITARGS* temp;
     temp = (INITARGS*) args;
-    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &(temp->cpu));    //set core affinity
+    cpu_set_t cpuset;
+    CPU_SET(temp->cpu, &cpuset);
+    pthread_setaffinity_np(pthread_self(), sizeof(cpu_set_t), &cpuset);    //set core affinity
     int start = temp->index;
     int end = (temp->index)+(temp->add);
     int tempRow, tempCol;
@@ -55,7 +70,7 @@ MATRIX **array_init_zero_parallel(int size){
     cpu_set_t cpuset;
     INITARGS argument[p];
     for(int i = 0; i < p; i++){
-        CPU_SET(i, &cpuset);
+        argument[i].cpu = i;
         argument[i].arr = arr;
         argument[i].size = size;
         argument[i].index = array_index;        //set fields

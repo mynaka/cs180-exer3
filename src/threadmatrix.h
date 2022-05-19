@@ -1,6 +1,3 @@
-#define _GNU_SOURCE
-#include <stdlib.h>
-#include <pthread.h>
 //MATRIX CELL
 typedef struct matrix{
 	int row;
@@ -14,8 +11,17 @@ typedef struct arguments{
     int size;       //width and height of the matrix
     int index;      //what index does the subarray start
     int add;        //how many elements to add
-    cpu_set_t cpu;  //which cpu is being used
+    int cpu;  //which cpu is being used
 }INITARGS;
+
+//PTHREAD MULTIPLICATION ARGUMENTS
+typedef struct multarguments{
+	MATRIX **matA, **matB, **matC;   //matrices
+    int size;       //width and height of the matrices
+    int row;      //what index does the submatrix start
+    int add;        //how many rows to find result on
+    int cpu;  //which cpu is being used
+}MULTARGS;
 
 /*
 *GET CPU COUNT
@@ -31,6 +37,13 @@ int get_cpu_count();
 *result: returns a size by size zero matrix
 */
 MATRIX **array_init_zero(int size);
+
+/*
+*INITIALIZE RANDOMIZED ARRAY
+*requirements: an integer size determining both the number of rows and columns of the matrix
+*result: returns a size by size matrix with random element values
+*/
+MATRIX **array_init_random(int size);
 
 /*
 *INITIALIZE ZERO ARRAY
