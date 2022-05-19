@@ -13,7 +13,7 @@ void main(){
     //set up timer and run function
     struct timeval stop, start;
     gettimeofday(&start, NULL);
-    arr = array_init_zero(size);
+    arr = array_init_zero_parallel(size);
     gettimeofday(&stop, NULL);
     double t = (double)((stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec) / 1000000;
     printf("Time elapsed: %f seconds for size %d\n", t, size);
